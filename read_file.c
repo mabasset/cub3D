@@ -6,7 +6,7 @@
 /*   By: mabasset <mabasset@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:41:29 by mabasset          #+#    #+#             */
-/*   Updated: 2022/06/20 14:33:01 by mabasset         ###   ########.fr       */
+/*   Updated: 2022/07/25 19:57:19 by mabasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,48 @@
 
 char	*ft_get_row(char *str, int flag)
 {
-	int	i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
-	tmp = &str[flag];
-	i = 0;
-	while (tmp[i] != '\0' && tmp[i] != '\n')
-		i++;
-	if (flag != 0)
+	ft_put_term(str);
+	tmp = malloc (sizeof(char) * (ft_strlen(str) - flag));
+	i = flag;
+	while (str[i] != '\0')
 	{
-		tmp[i] = '\0';
-		return (str);
+		tmp[i - flag] = str[i];
+		i++;
 	}
-	while (tmp[i] != '1')
-		i--;
-	tmp[i + 1] = '\0';
+	tmp[i - flag] = '\0';
+	free(str);
 	return (tmp);
+}
+
+int		ft_get_color(char *str)
+{
+	char	**matrix;
+	int		color;
+	int		multiplier;
+	int		i;
+
+	ft_put_term(str);
+	matrix = ft_split(str, ',');
+	color = 0;
+	i = 0;
+	while (matrix[i] != NULL)
+	{
+		if (ft_atoi(matrix[i]) != 0)
+		{
+			if (i == 0)
+				multiplier = 65536;
+			else if (i == 1)
+				multiplier = 256;
+			else
+				multiplier = 1;
+			color += ft_atoi(matrix[i]) * multiplier;
+		}
+		i++;
+	}
+	return (color);
 }
 
 void	ft_get_info(int fd, char *str, t_cub3D *data)
@@ -45,9 +71,9 @@ void	ft_get_info(int fd, char *str, t_cub3D *data)
 	str = get_next_line(fd);
 	free(str);
 	str = get_next_line(fd);
-	data->F = ft_get_row(str, 2);
+	data->F = ft_get_color(&str[2]);
 	str = get_next_line(fd);
-	data->C = ft_get_row(str, 2);
+	data->C = ft_get_color(&str[2]);
 	str = get_next_line(fd);
 	free(str);
 }
