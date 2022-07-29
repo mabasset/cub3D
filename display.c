@@ -6,7 +6,7 @@
 /*   By: mabasset <mabasset@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:48:39 by mabasset          #+#    #+#             */
-/*   Updated: 2022/07/27 21:42:16 by mabasset         ###   ########.fr       */
+/*   Updated: 2022/07/29 16:32:44 by mabasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,155 +199,170 @@ void	ft_draw_walls(t_cub3D *data)
 // 	}
 // }
 
-// float	ft_ray_length(t_cub3D *data, float ra)
-// {
-// 	float	i;
-// 	float	dx;
-// 	float	dy;
+float	ft_ray_length(t_cub3D *data, float ra)
+{
+	float	i;
+	float	dx;
+	float	dy;
 
-// 	dx = cos(ra);
-// 	dy = sin(ra);
-// 	i = 0;
-// 	while (data->map[(int) (data->p.y + dy * i)][(int) (data->p.x + dx * i)] != '1')
-// 		i += 0.01;
-// 	return (i);
-// }
+	dx = cos(ra);
+	dy = sin(ra);
+	i = 0;
+	while (data->map[(int) (data->p.y + dy * i)][(int) (data->p.x + dx * i)] != '1')
+		i += 0.01;
+	return (i);
+}
 
-// int		ft_texture(void)
-// {
-// 	return(RED);
-// }
+int		ft_texture(t_cub3D *data, float ra, float dist)
+{
+	float	dy;
+	float	dx;
 
-// void	ft_raycast(t_cub3D *data)
-// {
-// 	float	ra;
-// 	float	ca;
-// 	int		r;
-
-// 	ra = data->p.angle - FOV / 2 * RAD;
-// 	ft_check_angle(&ra);
-// 	r = 0;
-// 	while (r < FOV * 16)
-// 	{
-// 		ca = data->p.angle - ra;
-// 		ft_check_angle(&ca);
-// 		data->dist[r] = ft_ray_length(data, ra) * cos(ca);
-// 		data->color[r] = ft_texture();
-// 		ra += RAD / 16;
-// 		ft_check_angle(&ra);
-// 		r++;
-// 	}
-// }
+	dx = cos(ra);
+	dy = sin(ra);
+	dist -= 0.01;
+	if (data->map[(int) (data->p.y + dy * dist - 0.01)][(int) (data->p.x + dx * dist)] == '1')
+		return(GREEN);
+	else if (data->map[(int) (data->p.y + dy * dist + 0.01)][(int) (data->p.x + dx * dist)] == '1')
+		return(YELLOW);
+	else if (data->map[(int) (data->p.y + dy * dist)][(int) (data->p.x + dx * dist + 0.01)] == '1')
+		return(RED);
+	else if (data->map[(int) (data->p.y + dy * dist)][(int) (data->p.x + dx * dist - 0.01)] == '1')
+		return(BLUE);
+	return (BLACK);
+}
 
 void	ft_raycast(t_cub3D *data)
 {
-	int		r;
-	int		dof;
 	float	ra;
-	float	rx;
-	float	ry;
-	float	xo;
-	float	yo;
-	float	ctan;
-	float	disH;
-	float	disV;
+	float	ca;
+	int		r;
 
 	ra = data->p.angle - FOV / 2 * RAD;
+	printf("%f\n", data->p.angle);
 	ft_check_angle(&ra);
-	ctan = 1/tan(ra);
 	r = 0;
 	while (r < FOV * 16)
 	{
-		//horizontal
-		dof = 0;
-		if (ra > PI)
-		{
-			ry = (int) data->p.y;
-			rx = (data->p.y - ry) * ctan + data->p.x;
-			yo = -1;
-			xo = yo * ctan;
-		}
-		if (ra < PI)
-		{
-			ry = ((int) data->p.y) + 1;
-			rx = (data->p.y - ry) * ctan + data->p.x;
-			yo = 1;
-			xo = yo * ctan;
-		}
-		if (ra == 0 || ra == PI)
-		{
-			rx = data->p.x;
-			ry = data->p.y;
-			dof = 8;
-		}
-		while (dof < 8)
-		{
-			if (data->map[(int) ry][(int) rx] == '1')
-			{
-				dof = 8;
-				disH = sqrt((rx - data->p.x)*(rx - data->p.x) + (ry - data->p.y)*(ry - data->p.y));
-			}
-			else
-			{
-				rx += xo;
-				ry += yo;
-				dof++;
-			}
-		}
-		//vertical
-		dof = 0;
-		if (ra > PI / 2 && ra < 3 * PI / 2)
-		{
-			rx = (int) data->p.x;
-			ry = (data->p.x - rx) * ctan + data->p.y;
-			xo = -1;
-			yo = yo * ctan;
-		}
-		if (ra < PI / 2 || ra > 3 * PI / 2)
-		{
-			rx = ((int) data->p.x) + 1;
-			ry = (data->p.x - rx) * ctan + data->p.y;
-			xo = 1;
-			yo = xo * ctan;
-		}
-		if (ra == 0 || ra == PI)
-		{
-			rx = data->p.x;
-			ry = data->p.y;
-			dof = 8;
-		}
-		while (dof < 8)
-		{
-			if (data->map[(int) ry][(int) rx] == '1')
-			{
-				disV = sqrt((rx - data->p.x)*(rx - data->p.x) + (ry - data->p.y)*(ry - data->p.y));
-				dof = 8;
-			}
-			else
-			{
-				rx += xo;
-				ry += yo;
-				dof++;
-			}
-		}
-		if (disV > disH)
-			data->dist[r] = disH;
-		else
-			data->dist[r] = disV;
+		ca = data->p.angle - ra;
+		ft_check_angle(&ca);
+		data->dist[r] = ft_ray_length(data, ra) * cos(ca);
+		data->color[r] = ft_texture(data, ra, data->dist[r] / cos(ca));
 		ra += RAD / 16;
 		ft_check_angle(&ra);
 		r++;
 	}
 }
 
+// void	ft_raycast(t_cub3D *data)
+// {
+// 	int		r;
+// 	int		dof;
+// 	float	ra;
+// 	float	rx;
+// 	float	ry;
+// 	float	xo;
+// 	float	yo;
+// 	float	ctan;
+// 	float	disH;
+// 	float	disV;
+
+// 	ra = data->p.angle - FOV / 2 * RAD;
+// 	ft_check_angle(&ra);
+// 	ctan = 1/tan(ra);
+// 	r = 0;
+// 	while (r < FOV * 16)
+// 	{
+// 		//horizontal
+// 		dof = 0;
+// 		if (ra > PI)
+// 		{
+// 			ry = (int) data->p.y;
+// 			rx = (data->p.y - ry) * ctan + data->p.x;
+// 			yo = -1;
+// 			xo = yo * ctan;
+// 		}
+// 		if (ra < PI)
+// 		{
+// 			ry = ((int) data->p.y) + 1;
+// 			rx = (data->p.y - ry) * ctan + data->p.x;
+// 			yo = 1;
+// 			xo = yo * ctan;
+// 		}
+// 		if (ra == 0 || ra == PI)
+// 		{
+// 			rx = data->p.x;
+// 			ry = data->p.y;
+// 			dof = 8;
+// 		}
+// 		while (dof < 8)
+// 		{
+// 			if (data->map[(int) ry][(int) rx] == '1')
+// 			{
+// 				dof = 8;
+// 				disH = sqrt((rx - data->p.x)*(rx - data->p.x) + (ry - data->p.y)*(ry - data->p.y));
+// 			}
+// 			else
+// 			{
+// 				rx += xo;
+// 				ry += yo;
+// 				dof++;
+// 			}
+// 		}
+// 		//vertical
+// 		dof = 0;
+// 		if (ra > PI / 2 && ra < 3 * PI / 2)
+// 		{
+// 			rx = (int) data->p.x;
+// 			ry = (data->p.x - rx) * ctan + data->p.y;
+// 			xo = -1;
+// 			yo = yo * ctan;
+// 		}
+// 		if (ra < PI / 2 || ra > 3 * PI / 2)
+// 		{
+// 			rx = ((int) data->p.x) + 1;
+// 			ry = (data->p.x - rx) * ctan + data->p.y;
+// 			xo = 1;
+// 			yo = xo * ctan;
+// 		}
+// 		if (ra == 0 || ra == PI)
+// 		{
+// 			rx = data->p.x;
+// 			ry = data->p.y;
+// 			dof = 8;
+// 		}
+// 		while (dof < 8)
+// 		{
+// 			if (data->map[(int) ry][(int) rx] == '1')
+// 			{
+// 				disV = sqrt((rx - data->p.x)*(rx - data->p.x) + (ry - data->p.y)*(ry - data->p.y));
+// 				dof = 8;
+// 			}
+// 			else
+// 			{
+// 				rx += xo;
+// 				ry += yo;
+// 				dof++;
+// 			}
+// 		}
+// 		if (disV > disH)
+// 			data->dist[r] = disH;
+// 		else
+// 			data->dist[r] = disV;
+// 		ra += RAD / 16;
+// 		ft_check_angle(&ra);
+// 		r++;
+// 	}
+// }
+
 int		ft_display(t_cub3D *data)
 {
 	ft_movement(data);
 	//ft_draw_frame(data);
 	// ft_draw_rays(data);
-	//ft_draw_spiral(data);
 	ft_raycast(data);
 	ft_draw_walls(data);
+	//ft_draw_spiral(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 	mlx_put_image_to_window(data->mlx, data->win, data->gun, data->s_w / 2, data->s_h / 2 + FOV * 4 - 384);
 	// if (data->s_h >= 720 && data->s_w >= 1280)

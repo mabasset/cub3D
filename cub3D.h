@@ -6,7 +6,7 @@
 /*   By: mabasset <mabasset@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:53:49 by mabasset          #+#    #+#             */
-/*   Updated: 2022/07/27 19:20:37 by mabasset         ###   ########.fr       */
+/*   Updated: 2022/07/28 20:13:18 by mabasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define FOV	60
 
 # define RED	16711680
-# define YELLOW	65025
+# define YELLOW	16776960
 # define BLUE	255
 # define BLACK	0
 # define WHITE	16777215
