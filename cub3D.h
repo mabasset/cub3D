@@ -6,7 +6,7 @@
 /*   By: mabasset <mabasset@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:53:49 by mabasset          #+#    #+#             */
-/*   Updated: 2022/07/28 20:13:18 by mabasset         ###   ########.fr       */
+/*   Updated: 2022/07/30 19:18:37 by mabasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,18 @@ typedef	struct s_cub3D
 	t_img		img;
 }				t_cub3D;
 
-//check_file
+//check
+void	ft_check_fd(char *file_name);
 void	ft_check_file(char *file_name);
+void	ft_check_color(char *str);
+void	ft_check_info(t_cub3D *data);
+void	ft_check_angle(float *angle);
 
 //read_file
 void	ft_read_file(char *file_name, t_cub3D *data);
 
 //init
+void	ft_init_info(t_cub3D *data);
 void	ft_init(t_cub3D *data);
 
 //display
@@ -117,8 +122,8 @@ int		ft_on(int keycode, t_cub3D *data);
 int		ft_off(int keycode, t_cub3D *data);
 
 //utility
-void	ft_put_term(char *str);
-void	ft_check_angle(float *angle);
+int		ft_skip_spaces(char *str);
+char	*ft_find_map(int fd);
 void	ft_print_struct(t_cub3D data);
 void	ft_free_struct(t_cub3D *data);
 

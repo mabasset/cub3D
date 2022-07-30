@@ -6,19 +6,19 @@
 /*   By: mabasset <mabasset@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 15:29:40 by mabasset          #+#    #+#             */
-/*   Updated: 2022/06/17 17:15:32 by mabasset         ###   ########.fr       */
+/*   Updated: 2022/07/30 18:02:54 by mabasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include "mlx.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
+# include <time.h>
 
 typedef struct s_list
 {
@@ -71,7 +71,9 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 int		ft_printf(const char *str, ...);
 char	*get_next_line(int fd);
+int		ft_isspace(int c);
 void	ft_error(char *str);
+void	ft_check_malloc(void *ptr);
 void	ft_free_matrix(void	**matrix);
 
 #endif
