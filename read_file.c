@@ -6,114 +6,130 @@
 /*   By: mabasset <mabasset@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:41:29 by mabasset          #+#    #+#             */
-/*   Updated: 2022/07/25 19:57:19 by mabasset         ###   ########.fr       */
+/*   Updated: 2022/08/01 01:19:08 by mabasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-char	*ft_get_row(char *str, int flag)
+char	*ft_fill_info(char *str)
 {
+	char	*temp;
 	int		i;
-	char	*tmp;
+	int		j;
 
-	ft_put_term(str);
-	tmp = malloc (sizeof(char) * (ft_strlen(str) - flag));
-	i = flag;
-	while (str[i] != '\0')
-	{
-		tmp[i - flag] = str[i];
+	i = 0;
+	while (ft_isspace(str[i]) == 1)
 		i++;
+	j = 0;
+	while (ft_isspace(str[i + j]) == 0)
+		j++;
+	str[i + j] = '\0';
+	temp = (char *) malloc (sizeof(char) * (j + 1));
+	ft_check_malloc(temp);
+	j = 0;
+	while (str[i + j] != '\0')
+	{
+		temp[j] = str[i + j];
+		j++;
 	}
-	tmp[i - flag] = '\0';
-	free(str);
-	return (tmp);
+	temp[j] = '\0';
+	return (temp);
 }
 
-int		ft_get_color(char *str)
+int	ft_get_color(char *str)
 {
 	char	**matrix;
 	int		color;
-	int		multiplier;
 	int		i;
 
-	ft_put_term(str);
+	ft_check_color(str);
 	matrix = ft_split(str, ',');
 	color = 0;
 	i = 0;
 	while (matrix[i] != NULL)
 	{
-		if (ft_atoi(matrix[i]) != 0)
-		{
-			if (i == 0)
-				multiplier = 65536;
-			else if (i == 1)
-				multiplier = 256;
-			else
-				multiplier = 1;
-			color += ft_atoi(matrix[i]) * multiplier;
-		}
+		if (ft_atoi(matrix[i]) < 0 || ft_atoi(matrix[i]) > 255)
+			ft_error("Color");
+		else if (i == 0)
+			color += ft_atoi(matrix[i]) * 65536;
+		else if (i == 1)
+			color += ft_atoi(matrix[i]) * 256;
+		else
+			color += ft_atoi(matrix[i]);
 		i++;
 	}
+	free(str);
+	ft_free_matrix((void **) matrix);
+	if (i != 3)
+		ft_error("Color");
 	return (color);
 }
 
-void	ft_get_info(int fd, char *str, t_cub3D *data)
+int	ft_parse_info(t_cub3D *data, char *str)
 {
-	str = get_next_line(fd);
-	data->NO = ft_get_row(str, 3);
-	str = get_next_line(fd);
-	data->SO = ft_get_row(str, 3);
-	str = get_next_line(fd);
-	data->WE = ft_get_row(str, 3);
-	str = get_next_line(fd);
-	data->EA = ft_get_row(str, 3);
-	str = get_next_line(fd);
-	free(str);
-	str = get_next_line(fd);
-	data->F = ft_get_color(&str[2]);
-	str = get_next_line(fd);
-	data->C = ft_get_color(&str[2]);
-	str = get_next_line(fd);
-	free(str);
+	if (ft_memcmp(str, "NO", 2) == 0 && data->NO == NULL)
+		data->NO = ft_fill_info(str + 2);
+	else if (ft_memcmp(str, "SO", 2) == 0 && data->SO == NULL)
+		data->SO = ft_fill_info(str + 2);
+	else if (ft_memcmp(str, "WE", 2) == 0 && data->WE == NULL)
+		data->WE = ft_fill_info(str + 2);
+	else if (ft_memcmp(str, "EA", 2) == 0 && data->EA == NULL)
+		data->EA = ft_fill_info(str + 2);
+	else if (*str == 'F' && data->F == -1)
+		data->F = ft_get_color(ft_fill_info(str + 1));
+	else if (*str == 'C' && data->C == -1)
+		data->C = ft_get_color(ft_fill_info(str + 1));
+	else
+		return (0);
+	return (1);
 }
 
-int		ft_get_height(char *file_name, char *str)
+void	ft_get_info(t_cub3D *data, int fd)
 {
-	int		height;
-	int		fd;
+	char	*str;
+	int		i;
 
-	fd = open(file_name, O_RDONLY);
+	i = 0;
 	str = get_next_line(fd);
-	height = 0;
 	while (str != NULL)
 	{
-		height++;
+		i = ft_skip_spaces(str);
+		if (str[i] == '1')
+			break ;
+		if (str[i] != '\0')
+			if (ft_parse_info(data, str + i) == 0)
+				ft_error("Info");
+		free(str);
+		str = get_next_line(fd);
+	}
+}
+
+char	**ft_fill_map(char *str, char **matrix, int fd, char *file_name)
+{
+	int		i;
+
+	i = 0;
+	while (str != NULL)
+	{
+		i++;
 		free(str);
 		str = get_next_line(fd);
 	}
 	close(fd);
-	return (height - 8);
-}
-
-void	ft_read_file(char *file_name, t_cub3D *data)
-{
-	int		fd;
-	int		row;
-	char	*str;
-
+	matrix = (char **) malloc (sizeof(char *) * (i + 1));
+	ft_check_malloc(matrix);
+	matrix[i] = NULL;
 	fd = open(file_name, O_RDONLY);
-	str = NULL;
-	ft_get_info(fd, str, data);
-	data->height = ft_get_height(file_name, str);
-	data->map = (char **) malloc (sizeof(char *) * (data->height + 1));
-	data->map[data->height] = NULL;
-	row = 0;
-	while (row < data->height)
+	str = ft_find_map(fd);
+	i = 0;
+	while (str != NULL)
 	{
+		if (str[ft_strlen(str) - 1] == '\n')
+			str[ft_strlen(str) - 1] = '\0';
+		matrix[i++] = str;
 		str = get_next_line(fd);
-		data->map[row] = ft_get_row(str, 0);
-		row++;
 	}
 	close(fd);
+	return (matrix);
 }

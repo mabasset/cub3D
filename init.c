@@ -6,11 +6,21 @@
 /*   By: mabasset <mabasset@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:41:43 by mabasset          #+#    #+#             */
-/*   Updated: 2022/07/27 21:10:18 by mabasset         ###   ########.fr       */
+/*   Updated: 2022/07/31 16:02:42 by mabasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void	ft_init_info(t_cub3D *data)
+{
+	data->NO = NULL;
+	data->SO = NULL;
+	data->WE = NULL;
+	data->EA = NULL;
+	data->F = -1;
+	data->C = -1;
+}
 
 void	ft_init_p(t_cub3D *data, char c)
 {

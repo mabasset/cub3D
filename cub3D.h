@@ -6,7 +6,7 @@
 /*   By: mabasset <mabasset@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:53:49 by mabasset          #+#    #+#             */
-/*   Updated: 2022/07/30 19:18:37 by mabasset         ###   ########.fr       */
+/*   Updated: 2022/08/01 00:53:25 by mabasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,16 @@ typedef	struct s_cub3D
 }				t_cub3D;
 
 //check
-void	ft_check_fd(char *file_name);
+void	ft_check_fd(char *file_name, char *str);
 void	ft_check_file(char *file_name);
 void	ft_check_color(char *str);
 void	ft_check_info(t_cub3D *data);
+void	ft_check_map(char **map);
 void	ft_check_angle(float *angle);
 
 //read_file
-void	ft_read_file(char *file_name, t_cub3D *data);
+void	ft_get_info(t_cub3D *data, int fd);
+char	**ft_fill_map(char *str, char **matrix, int fd, char *file_name);
 
 //init
 void	ft_init_info(t_cub3D *data);

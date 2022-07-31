@@ -1,5 +1,6 @@
 NAME = cub3D
-SRC = main.c check_file.c read_file.c init.c movements.c display.c utility.c mlx_draw.c
+SRC = main.c check.c check_extra.c read_file.c init.c movements.c \
+		display.c utility.c mlx_draw.c
 FLG = -Wall -Wextra -Werror
 LIB = libft.a
 MLX = libmlx.dylib
