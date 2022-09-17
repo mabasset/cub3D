@@ -6,7 +6,7 @@
 /*   By: mabasset <mabasset@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:41:29 by mabasset          #+#    #+#             */
-/*   Updated: 2022/08/01 01:19:08 by mabasset         ###   ########.fr       */
+/*   Updated: 2022/08/16 01:16:53 by mabasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,10 @@ void	ft_get_info(t_cub3D *data, int fd)
 	{
 		i = ft_skip_spaces(str);
 		if (str[i] == '1')
+		{
+			free(str);
 			break ;
+		}
 		if (str[i] != '\0')
 			if (ft_parse_info(data, str + i) == 0)
 				ft_error("Info");
@@ -122,12 +125,12 @@ char	**ft_fill_map(char *str, char **matrix, int fd, char *file_name)
 	matrix[i] = NULL;
 	fd = open(file_name, O_RDONLY);
 	str = ft_find_map(fd);
-	i = 0;
+	i = -1;
 	while (str != NULL)
 	{
 		if (str[ft_strlen(str) - 1] == '\n')
 			str[ft_strlen(str) - 1] = '\0';
-		matrix[i++] = str;
+		matrix[++i] = str;
 		str = get_next_line(fd);
 	}
 	close(fd);

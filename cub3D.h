@@ -6,7 +6,7 @@
 /*   By: mabasset <mabasset@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:53:49 by mabasset          #+#    #+#             */
-/*   Updated: 2022/08/01 00:53:25 by mabasset         ###   ########.fr       */
+/*   Updated: 2022/08/16 01:30:56 by mabasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@
 # define WHITE	16777215
 # define GREEN	65280
 
-# define SPEED	0.1
-# define SENS	0.06598132
+# define SPEED	0.07
+# define SENS	0.03299066
 
 //keypress
 # define W		13
@@ -74,12 +74,24 @@ typedef struct s_player
 	int		right;
 }				t_player;
 
+typedef struct s_text
+{
+	int		w;
+	int		h;
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		ll;
+	int		e;
+}				t_text;
+
 typedef	struct s_cub3D
 {
 	char		*NO;
 	char		*SO;
 	char		*WE;
 	char		*EA;
+	t_text		text[4];
 	int			F;
 	int			C;
 	char		**map;
@@ -93,7 +105,9 @@ typedef	struct s_cub3D
 	void		*gun2;
 	void		*gun;
 	float		dist[FOV * 16];
-	int			color[FOV * 16];
+	int			orientation[FOV * 16];
+	float		hit_x[FOV * 16];
+	float		hit_y[FOV * 16];
 	t_player	p;
 	t_img		img;
 }				t_cub3D;

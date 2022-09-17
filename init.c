@@ -6,7 +6,7 @@
 /*   By: mabasset <mabasset@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:41:43 by mabasset          #+#    #+#             */
-/*   Updated: 2022/07/31 16:02:42 by mabasset         ###   ########.fr       */
+/*   Updated: 2022/08/16 01:29:34 by mabasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	ft_init_img(t_cub3D *data)
 		x = 0;
 		while (x < data->s_w)
 		{
-			my_mlx_pixel_put(data, x, y, WP);
+			if (!((x > data->s_w / 2 - FOV * 8 && x < data->s_w / 2 + FOV * 8) && (y > data->s_h / 2 - FOV * 4 && y < data->s_h / 2 + FOV * 4)))
+				my_mlx_pixel_put(data, x, y, WP);
 			x++;
 		}
 		y++;
@@ -96,4 +97,14 @@ void	ft_init(t_cub3D *data)
 	data->p.left = 0;
 	data->p.right = 0;
 	ft_init_img(data);
+	data->text[0].img = mlx_xpm_file_to_image(data->mlx, data->NO, &data->text[0].w, &data->text[0].h);
+	data->text[0].addr = mlx_get_data_addr(data->text[0].img, &data->text[0].bpp, &data->text[0].ll, &data->text[0].e);
+	data->text[1].img = mlx_xpm_file_to_image(data->mlx, data->SO, &data->text[1].w, &data->text[1].h);
+	data->text[1].addr = mlx_get_data_addr(data->text[1].img, &data->text[1].bpp, &data->text[1].ll, &data->text[1].e);
+	data->text[2].img = mlx_xpm_file_to_image(data->mlx, data->WE, &data->text[2].w, &data->text[2].h);
+	data->text[2].addr = mlx_get_data_addr(data->text[2].img, &data->text[2].bpp, &data->text[2].ll, &data->text[2].e);
+	data->text[3].img = mlx_xpm_file_to_image(data->mlx, data->EA, &data->text[3].w, &data->text[3].h);
+	data->text[3].addr = mlx_get_data_addr(data->text[3].img, &data->text[3].bpp, &data->text[3].ll, &data->text[3].e);
+	// printf("%p\n", data->text[0].addr);
+	// printf("%p\n", data->text[1].addr);
 }
