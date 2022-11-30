@@ -81,7 +81,11 @@ void	ft_movement(t_cub3D *data)
 	float	langle;
 	float	ldx;
 	float	ldy;
+	int		x;
+	int		y;
 
+	mlx_mouse_hide();
+	mlx_mouse_get_pos(data->win, &x, &y);
 	langle = data->p.angle - PI / 2;
 	ft_check_angle(&langle);
 	ldx = cos(langle);
@@ -94,8 +98,9 @@ void	ft_movement(t_cub3D *data)
 		ft_move(data, ldx * SPEED, ldy * SPEED);
 	if (data->p.d == 1)
 		ft_move(data, -(ldx * SPEED), -(ldy * SPEED));
-	if (data->p.left == 1)
+	if (data->p.left == 1 || x < data->s_w / 2)
 		ft_dir(data, -SENS);
-	if (data->p.right == 1)
+	if (data->p.right == 1 || x > data->s_w / 2)
 		ft_dir(data, SENS);
+	mlx_mouse_move(data->win, data->s_w / 2, data->s_h / 2);
 }

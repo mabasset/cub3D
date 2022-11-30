@@ -6,7 +6,7 @@
 /*   By: mabasset <mabasset@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:41:43 by mabasset          #+#    #+#             */
-/*   Updated: 2022/08/16 01:29:34 by mabasset         ###   ########.fr       */
+/*   Updated: 2022/09/22 20:31:06 by mabasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ void	ft_init_img(t_cub3D *data)
 {
 	int		y;
 	int		x;
-	int		w;
-	int		h;
 
 	data->img.img = mlx_new_image(data->mlx, data->s_w, data->s_h);
 	data->img.addr = mlx_get_data_addr(data->img.img, &data->img.bpp, &data->img.ll, &data->img.e);
@@ -80,7 +78,15 @@ void	ft_init_img(t_cub3D *data)
 		}
 		y++;
 	}
-	data->gun = mlx_xpm_file_to_image(data->mlx, GUN, &w, &h);
+}
+
+void	ft_init_sprites(t_cub3D *data)
+{
+	int		w;
+	int		h;
+
+	data->s.gun1 = mlx_xpm_file_to_image(data->mlx, GUN, &w, &h);
+	data->s.gun2 = mlx_xpm_file_to_image(data->mlx, GUN2, &w, &h);
 }
 
 void	ft_init(t_cub3D *data)
@@ -96,7 +102,9 @@ void	ft_init(t_cub3D *data)
 	data->p.d = 0;
 	data->p.left = 0;
 	data->p.right = 0;
+	data->frame = 0;
 	ft_init_img(data);
+	ft_init_sprites(data);
 	data->text[0].img = mlx_xpm_file_to_image(data->mlx, data->NO, &data->text[0].w, &data->text[0].h);
 	data->text[0].addr = mlx_get_data_addr(data->text[0].img, &data->text[0].bpp, &data->text[0].ll, &data->text[0].e);
 	data->text[1].img = mlx_xpm_file_to_image(data->mlx, data->SO, &data->text[1].w, &data->text[1].h);

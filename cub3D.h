@@ -6,7 +6,7 @@
 /*   By: mabasset <mabasset@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:53:49 by mabasset          #+#    #+#             */
-/*   Updated: 2022/08/16 01:30:56 by mabasset         ###   ########.fr       */
+/*   Updated: 2022/09/26 21:27:30 by mabasset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 //img
 # define GUN	"sprites/gun.xpm"
+# define GUN2	"sprites/gun2.xpm"
 
 //wallpaper color
 # define WP		2383707
@@ -85,6 +86,18 @@ typedef struct s_text
 	int		e;
 }				t_text;
 
+typedef struct s_sprites
+{
+	void	*gun;
+	void	*gun1;
+	void	*gun2;
+	void	*ari;
+	void	*ari1;
+	void	*ari2;
+	void	*ari3;
+	void	*ari4;
+}				t_sprites;
+
 typedef	struct s_cub3D
 {
 	char		*NO;
@@ -92,6 +105,7 @@ typedef	struct s_cub3D
 	char		*WE;
 	char		*EA;
 	t_text		text[4];
+	t_sprites	s;
 	int			F;
 	int			C;
 	char		**map;
@@ -101,13 +115,10 @@ typedef	struct s_cub3D
 	int			s_w;
 	void		*mlx;
 	void		*win;
-	void		*gun1;
-	void		*gun2;
-	void		*gun;
-	float		dist[FOV * 16];
+	int			frame;
+	float		wall_h[FOV * 16];
 	int			orientation[FOV * 16];
 	float		hit_x[FOV * 16];
-	float		hit_y[FOV * 16];
 	t_player	p;
 	t_img		img;
 }				t_cub3D;
