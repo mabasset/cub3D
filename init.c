@@ -85,14 +85,12 @@ void	ft_init_sprites(t_cub3D *data)
 	int		w;
 	int		h;
 
-	data->s.gun1 = mlx_xpm_file_to_image(data->mlx, GUN, &w, &h);
-	data->s.gun2 = mlx_xpm_file_to_image(data->mlx, GUN2, &w, &h);
+	data->s.hand = mlx_xpm_file_to_image(data->mlx, HAND, &w, &h);
+	data->s.ari = mlx_xpm_file_to_image(data->mlx, ARI, &w, &h);
 }
 
 void	ft_init(t_cub3D *data)
 {
-	float	la;
-
 	ft_find_p(data);
 	data->p.dx = cos(data->p.angle);
 	data->p.dy = sin(data->p.angle);
@@ -113,6 +111,4 @@ void	ft_init(t_cub3D *data)
 	data->text[2].addr = mlx_get_data_addr(data->text[2].img, &data->text[2].bpp, &data->text[2].ll, &data->text[2].e);
 	data->text[3].img = mlx_xpm_file_to_image(data->mlx, data->EA, &data->text[3].w, &data->text[3].h);
 	data->text[3].addr = mlx_get_data_addr(data->text[3].img, &data->text[3].bpp, &data->text[3].ll, &data->text[3].e);
-	// printf("%p\n", data->text[0].addr);
-	// printf("%p\n", data->text[1].addr);
 }
