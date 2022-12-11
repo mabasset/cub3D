@@ -49,7 +49,7 @@ void	ft_check_map(char **map)
 			c = map[row][col];
 			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 				count++;
-			if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
+			if (c == '0' || c == 'D' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
 				ft_check_spaces(map, row, col);
 			else if (c != '1' && c != ' ')
 				ft_error("Map");

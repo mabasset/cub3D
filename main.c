@@ -40,7 +40,7 @@ int	main(int argc, char *argv[])
 		ft_error("Arg");
 	ft_check_file(argv[1]);
 	ft_read_file(argv[1], &data);
-	ft_print_struct(data);
+	//ft_print_struct(data);
 	data.mlx = mlx_init();
 	mlx_get_screen_size(data.mlx, &data.s_w, &data.s_h);
 	data.win = mlx_new_window(data.mlx, data.s_w, data.s_h, "cub3D");

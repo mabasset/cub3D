@@ -76,6 +76,8 @@ int	ft_parse_info(t_cub3D *data, char *str)
 		data->WE = ft_fill_info(str + 2);
 	else if (ft_memcmp(str, "EA", 2) == 0 && data->EA == NULL)
 		data->EA = ft_fill_info(str + 2);
+	else if (ft_memcmp(str, "DO", 2) == 0 && data->DO == NULL)
+		data->DO = ft_fill_info(str + 2);
 	else if (*str == 'F' && data->F == -1)
 		data->F = ft_get_color(ft_fill_info(str + 1));
 	else if (*str == 'C' && data->C == -1)

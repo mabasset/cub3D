@@ -18,6 +18,7 @@ void	ft_init_info(t_cub3D *data)
 	data->SO = NULL;
 	data->WE = NULL;
 	data->EA = NULL;
+	data->DO = NULL;
 	data->F = -1;
 	data->C = -1;
 }
@@ -102,7 +103,7 @@ void	ft_init(t_cub3D *data)
 	data->p.right = 0;
 	data->frame = 0;
 	ft_init_img(data);
-	ft_init_sprites(data);
+	//ft_init_sprites(data);
 	data->text[0].img = mlx_xpm_file_to_image(data->mlx, data->NO, &data->text[0].w, &data->text[0].h);
 	data->text[0].addr = mlx_get_data_addr(data->text[0].img, &data->text[0].bpp, &data->text[0].ll, &data->text[0].e);
 	data->text[1].img = mlx_xpm_file_to_image(data->mlx, data->SO, &data->text[1].w, &data->text[1].h);
@@ -111,4 +112,6 @@ void	ft_init(t_cub3D *data)
 	data->text[2].addr = mlx_get_data_addr(data->text[2].img, &data->text[2].bpp, &data->text[2].ll, &data->text[2].e);
 	data->text[3].img = mlx_xpm_file_to_image(data->mlx, data->EA, &data->text[3].w, &data->text[3].h);
 	data->text[3].addr = mlx_get_data_addr(data->text[3].img, &data->text[3].bpp, &data->text[3].ll, &data->text[3].e);
+	data->text[4].img = mlx_xpm_file_to_image(data->mlx, data->DO, &data->text[4].w, &data->text[4].h);
+	data->text[4].addr = mlx_get_data_addr(data->text[4].img, &data->text[4].bpp, &data->text[4].ll, &data->text[4].e);
 }

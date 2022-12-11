@@ -29,7 +29,7 @@ void	ft_check_file(char *file_name)
 {
 	if (ft_strlen(file_name) < 5)
 		ft_error("Map name");
-	if (ft_memcmp(&file_name[ft_strlen(file_name) - 4], ".cup", 4) != 0)
+	if (ft_memcmp(&file_name[ft_strlen(file_name) - 4], ".cub", 4) != 0)
 		ft_error("Map extension");
 	ft_check_fd(file_name, "Map");
 }
@@ -63,4 +63,6 @@ void	ft_check_info(t_cub3D *data)
 	ft_check_fd(data->SO, "Texture");
 	ft_check_fd(data->WE, "Texture");
 	ft_check_fd(data->EA, "Texture");
+	if (data->DO)
+		ft_check_fd(data->DO, "Texture");
 }

@@ -20,8 +20,8 @@
 # define RAD	0.0174533
 
 //img
-# define GUN	"sprites/gun.xpm"
-# define GUN2	"sprites/gun2.xpm"
+# define HAND	"sprites/hand.xpm"
+# define ARI	"sprites/ari.xpm"
 
 //wallpaper color
 # define WP		2383707
@@ -88,14 +88,8 @@ typedef struct s_text
 
 typedef struct s_sprites
 {
-	void	*gun;
-	void	*gun1;
-	void	*gun2;
+	void	*hand;
 	void	*ari;
-	void	*ari1;
-	void	*ari2;
-	void	*ari3;
-	void	*ari4;
 }				t_sprites;
 
 typedef	struct s_cub3D
@@ -104,7 +98,8 @@ typedef	struct s_cub3D
 	char		*SO;
 	char		*WE;
 	char		*EA;
-	t_text		text[4];
+	char		*DO;
+	t_text		text[5];
 	t_sprites	s;
 	int			F;
 	int			C;
